@@ -23,4 +23,6 @@ At pinned commit `50cf20eb831c2024fcd4cf80227ef1ba37db7c60`, the OpenAI-compatib
 
 The provided live recipe therefore sends `{"thinking":{"type":"disabled"}}`. Do not compare that run with a thinking-enabled run as if they were the same configuration. Thinking mode should be enabled here only after the upstream round-trip path is fixed and pinned.
 
+A focused upstream fix with regression tests is open as [tool-eval-bench PR #68](https://github.com/SeraphimSerapis/tool-eval-bench/pull/68). The lab continues to use the released upstream commit until that change is reviewed and merged.
+
 When publishing a result, include the tool-eval commit, model, endpoint family, thinking mode, scenario set, seed, completion rate, and raw report. Never commit an API key.

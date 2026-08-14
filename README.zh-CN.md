@@ -35,6 +35,8 @@ uv run python scripts/live_tool_eval.py
 
 只有显式加 `--execute` 且设置 `DEEPSEEK_API_KEY` 才会产生真实、可能计费的 API 调用。比较结果前先看[运行说明](docs/tool-eval-bench.md)。当前 recipe 明确关闭 thinking，因为固定版本的上游 benchmark 还没有把 `reasoning_content` 写回多轮工具历史。
 
+对应修复已经提交到上游 [tool-eval-bench PR #68](https://github.com/SeraphimSerapis/tool-eval-bench/pull/68)。在它合并前，本仓库不会悄悄切到个人 fork。
+
 ## 当前采用的官方信息
 
 `lab.lock.json` 记录了 2026-08-14 核对的官方文档：
