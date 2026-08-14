@@ -1,0 +1,20 @@
+{
+  "model": "deepseek-v4-pro",
+  "max_tokens": 1024,
+  "extra_body": { "thinking": { "type": "enabled" } },
+  "messages": [
+    { "role": "user", "content": "Look up item 42" },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_lookup_1",
+          "type": "function",
+          "function": { "name": "lookup", "arguments": "{\"id\":42}" }
+        }
+      ]
+    },
+    { "role": "tool", "tool_call_id": "call_lookup_1", "content": "found" }
+  ]
+}

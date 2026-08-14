@@ -1,0 +1,320 @@
+{
+  "cases": [
+    {
+      "actual": {
+        "codes": [],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 0
+      },
+      "feature": "Thinking tool loop preserves reasoning_content",
+      "findings": [],
+      "fixture": "fixtures/valid-thinking-tool-loop.json",
+      "fixture_sha256": "a1ce6f442f1a65d71f2f8deeea456c06bdb5a44091f907ecc47d5f300b9ed551",
+      "id": "valid-thinking-tool-loop",
+      "kind": "request",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 0
+      },
+      "feature": "Explicit non-thinking tool loop",
+      "findings": [],
+      "fixture": "fixtures/valid-disabled-thinking-loop.json",
+      "fixture_sha256": "ffb5a56aeb496314c16b0685779a2f2e8d0c3be5ad25aef270f141237ce2c713",
+      "id": "valid-disabled-thinking-loop",
+      "kind": "request",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "REASONING_CONTENT_MISSING"
+        ],
+        "errors": 1,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [
+          "REASONING_CONTENT_MISSING"
+        ],
+        "errors": 1,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "feature": "Missing reasoning_content in a thinking tool loop",
+      "findings": [
+        {
+          "code": "REASONING_CONTENT_MISSING",
+          "hint": "Preserve the exact field returned by DeepSeek across the tool loop; do not synthesize a replacement. If thinking is intentionally off, declare thinking=disabled.",
+          "message": "assistant tool-call turn is missing the original reasoning_content",
+          "path": "messages[1].reasoning_content",
+          "severity": "error"
+        }
+      ],
+      "fixture": "fixtures/missing-reasoning-roundtrip.json",
+      "fixture_sha256": "0c5f7654d26fb47e33763460da3f4178255da3fb055027c39487565bf9dcb8f1",
+      "id": "missing-reasoning-roundtrip",
+      "kind": "request",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "TOOL_RESULT_ORPHAN"
+        ],
+        "errors": 1,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [
+          "TOOL_RESULT_ORPHAN"
+        ],
+        "errors": 1,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "feature": "Tool result must match a pending tool_call_id",
+      "findings": [
+        {
+          "code": "TOOL_RESULT_ORPHAN",
+          "hint": "Keep the assistant tool_calls and tool results in the same history.",
+          "message": "tool_call_id 'call_missing' does not match a pending assistant tool call",
+          "path": "messages[1].tool_call_id",
+          "severity": "error"
+        }
+      ],
+      "fixture": "fixtures/orphan-tool-result.json",
+      "fixture_sha256": "88650d1a36dfce4f29f639a5817a11a7ffe1fe7dd3a6b09486542e3e76dd1eea",
+      "id": "orphan-tool-result",
+      "kind": "request",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "TOOL_RESULTS_PENDING"
+        ],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 1
+      },
+      "expected": {
+        "codes": [
+          "TOOL_RESULTS_PENDING"
+        ],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 1
+      },
+      "feature": "Mid-flight capture keeps pending tool results visible",
+      "findings": [
+        {
+          "code": "TOOL_RESULTS_PENDING",
+          "hint": "This is valid for a captured mid-flight request, but not for a completed tool loop.",
+          "message": "1 assistant tool call(s) have no tool result yet",
+          "severity": "warning"
+        }
+      ],
+      "fixture": "fixtures/mid-flight-pending-result.json",
+      "fixture_sha256": "64e30893b0d1675604acdb46dda1dff96f5cda1fee8c519da773b94e969c2b49",
+      "id": "mid-flight-pending-result",
+      "kind": "request",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "STRICT_ADDITIONAL_PROPERTIES",
+          "STRICT_REQUIRED_MISSING"
+        ],
+        "errors": 2,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [
+          "STRICT_ADDITIONAL_PROPERTIES",
+          "STRICT_REQUIRED_MISSING"
+        ],
+        "errors": 2,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "feature": "DeepSeek strict function schema requirements",
+      "findings": [
+        {
+          "code": "STRICT_REQUIRED_MISSING",
+          "hint": "DeepSeek strict mode requires every object property to be listed in required.",
+          "message": "strict object schema does not require all properties: id",
+          "path": "tools[0].function.parameters.required",
+          "severity": "error"
+        },
+        {
+          "code": "STRICT_ADDITIONAL_PROPERTIES",
+          "message": "strict object schema must set additionalProperties to false",
+          "path": "tools[0].function.parameters.additionalProperties",
+          "severity": "error"
+        }
+      ],
+      "fixture": "fixtures/invalid-strict-schema.json",
+      "fixture_sha256": "714b8ccecd8a68c31ffe4c4184148621f504a7c59db93dba80691537c8eb0743",
+      "id": "invalid-strict-schema",
+      "kind": "request",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "SSE_EMPTY_CHOICES",
+          "SSE_TOOL_INDICES_INTERLEAVED"
+        ],
+        "errors": 0,
+        "infos": 2,
+        "ok": true,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [
+          "SSE_EMPTY_CHOICES",
+          "SSE_TOOL_INDICES_INTERLEAVED"
+        ],
+        "errors": 0,
+        "infos": 2,
+        "ok": true,
+        "warnings": 0
+      },
+      "feature": "Interleaved streamed tool-call indices",
+      "findings": [
+        {
+          "code": "SSE_EMPTY_CHOICES",
+          "hint": "Do not assume every SSE chunk contains a choice.",
+          "message": "observed 1 chunk(s) with choices=[]; these are tolerated",
+          "severity": "info"
+        },
+        {
+          "code": "SSE_TOOL_INDICES_INTERLEAVED",
+          "hint": "Aggregate by tool-call index rather than appending by arrival order.",
+          "message": "tool-call deltas interleave across indices; index-keyed aggregation succeeded",
+          "severity": "info"
+        }
+      ],
+      "fixture": "fixtures/interleaved-streamed-tools.jsonl",
+      "fixture_sha256": "9f79372c3e873417d02ece0228bf2226ba24b6915208972620cc513dcfaf6023",
+      "id": "interleaved-streamed-tools",
+      "kind": "stream",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "SSE_TOOL_ARGUMENTS_INVALID"
+        ],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 1
+      },
+      "expected": {
+        "codes": [
+          "SSE_TOOL_ARGUMENTS_INVALID"
+        ],
+        "errors": 0,
+        "infos": 0,
+        "ok": true,
+        "warnings": 1
+      },
+      "feature": "Token-limited incomplete streamed arguments",
+      "findings": [
+        {
+          "code": "SSE_TOOL_ARGUMENTS_INVALID",
+          "hint": "The model stopped at the token limit; do not execute an incomplete tool call.",
+          "message": "aggregated tool call 0 arguments are not valid JSON",
+          "path": "tool_calls[0].function.arguments",
+          "severity": "warning"
+        }
+      ],
+      "fixture": "fixtures/truncated-streamed-arguments.jsonl",
+      "fixture_sha256": "dfc9ebb9f31816334e3a99f2f40cad0540a2ed80e9ea93f1dbba429f6a7c1e28",
+      "id": "truncated-streamed-arguments",
+      "kind": "stream",
+      "matched": true
+    },
+    {
+      "actual": {
+        "codes": [
+          "SSE_JSON_INVALID"
+        ],
+        "errors": 1,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "expected": {
+        "codes": [
+          "SSE_JSON_INVALID"
+        ],
+        "errors": 1,
+        "infos": 0,
+        "ok": false,
+        "warnings": 0
+      },
+      "feature": "Malformed SSE JSON data line",
+      "findings": [
+        {
+          "code": "SSE_JSON_INVALID",
+          "message": "stream data line is not valid JSON",
+          "path": "line 1",
+          "severity": "error"
+        }
+      ],
+      "fixture": "fixtures/malformed-stream-line.jsonl",
+      "fixture_sha256": "0cf6eafca72af1e715ea0cd8b0607a82cba00eba8f38b7fd8e28ac9b0f857f80",
+      "id": "malformed-stream-line",
+      "kind": "stream",
+      "matched": true
+    }
+  ],
+  "protocol_doctor": {
+    "commit": "7f6e8ddbace09cc59252694002613d5abe5e2d5c",
+    "repository": "https://github.com/Whning0513/deepseek-protocol-doctor",
+    "version": "0.1.0"
+  },
+  "schema_version": 1,
+  "suite": "deepseek-v4-openai-protocol",
+  "summary": {
+    "cases": 9,
+    "matched": 9,
+    "mismatched": 0
+  }
+}

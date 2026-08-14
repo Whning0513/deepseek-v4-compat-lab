@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-08-14",
+  "protocol_doctor": {
+    "repository": "https://github.com/Whning0513/deepseek-protocol-doctor",
+    "commit": "7f6e8ddbace09cc59252694002613d5abe5e2d5c",
+    "version": "0.1.0"
+  },
+  "tool_eval_bench": {
+    "repository": "https://github.com/SeraphimSerapis/tool-eval-bench",
+    "commit": "50cf20eb831c2024fcd4cf80227ef1ba37db7c60",
+    "mode": "optional-live"
+  },
+  "deepseek_api": {
+    "base_url": "https://api.deepseek.com",
+    "models": ["deepseek-v4-pro", "deepseek-v4-flash"],
+    "thinking_default": "enabled",
+    "sources": [
+      "https://api-docs.deepseek.com/news/news260424",
+      "https://api-docs.deepseek.com/guides/thinking_mode",
+      "https://api-docs.deepseek.com/guides/tool_calls"
+    ]
+  }
+}

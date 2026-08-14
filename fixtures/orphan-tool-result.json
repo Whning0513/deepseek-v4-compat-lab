@@ -1,0 +1,9 @@
+{
+  "model": "deepseek-v4-pro",
+  "max_tokens": 1024,
+  "extra_body": { "thinking": { "type": "enabled" } },
+  "messages": [
+    { "role": "user", "content": "Continue" },
+    { "role": "tool", "tool_call_id": "call_missing", "content": "result" }
+  ]
+}

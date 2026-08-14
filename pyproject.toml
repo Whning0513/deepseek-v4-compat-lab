@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deepseek-v4-compat-lab"
+version = "0.1.0"
+description = "Reproducible protocol fixtures and benchmark recipes for DeepSeek V4 clients"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "DeepSeek V4 Compatibility Lab contributors" }]
+dependencies = [
+  "deepseek-protocol-doctor @ git+https://github.com/Whning0513/deepseek-protocol-doctor.git@7f6e8ddbace09cc59252694002613d5abe5e2d5c",
+  "jsonschema>=4.25,<5",
+]
+
+[project.scripts]
+dsv4-compat-lab = "deepseek_v4_compat_lab.cli:main"
+
+[dependency-groups]
+dev = [
+  "pytest>=8.4,<9",
+  "ruff>=0.12,<0.14",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/deepseek_v4_compat_lab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

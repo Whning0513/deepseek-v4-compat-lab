@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "suite": "deepseek-v4-openai-protocol",
+  "cases": [
+    {
+      "id": "valid-thinking-tool-loop",
+      "feature": "Thinking tool loop preserves reasoning_content",
+      "kind": "request",
+      "fixture": "fixtures/valid-thinking-tool-loop.json",
+      "expected": { "ok": true, "errors": 0, "warnings": 0, "infos": 0, "codes": [] }
+    },
+    {
+      "id": "valid-disabled-thinking-loop",
+      "feature": "Explicit non-thinking tool loop",
+      "kind": "request",
+      "fixture": "fixtures/valid-disabled-thinking-loop.json",
+      "expected": { "ok": true, "errors": 0, "warnings": 0, "infos": 0, "codes": [] }
+    },
+    {
+      "id": "missing-reasoning-roundtrip",
+      "feature": "Missing reasoning_content in a thinking tool loop",
+      "kind": "request",
+      "fixture": "fixtures/missing-reasoning-roundtrip.json",
+      "expected": {
+        "ok": false,
+        "errors": 1,
+        "warnings": 0,
+        "infos": 0,
+        "codes": ["REASONING_CONTENT_MISSING"]
+      }
+    },
+    {
+      "id": "orphan-tool-result",
+      "feature": "Tool result must match a pending tool_call_id",
+      "kind": "request",
+      "fixture": "fixtures/orphan-tool-result.json",
+      "expected": {
+        "ok": false,
+        "errors": 1,
+        "warnings": 0,
+        "infos": 0,
+        "codes": ["TOOL_RESULT_ORPHAN"]
+      }
+    },
+    {
+      "id": "mid-flight-pending-result",
+      "feature": "Mid-flight capture keeps pending tool results visible",
+      "kind": "request",
+      "fixture": "fixtures/mid-flight-pending-result.json",
+      "expected": {
+        "ok": true,
+        "errors": 0,
+        "warnings": 1,
+        "infos": 0,
+        "codes": ["TOOL_RESULTS_PENDING"]
+      }
+    },
+    {
+      "id": "invalid-strict-schema",
+      "feature": "DeepSeek strict function schema requirements",
+      "kind": "request",
+      "fixture": "fixtures/invalid-strict-schema.json",
+      "expected": {
+        "ok": false,
+        "errors": 2,
+        "warnings": 0,
+        "infos": 0,
+        "codes": ["STRICT_ADDITIONAL_PROPERTIES", "STRICT_REQUIRED_MISSING"]
+      }
+    },
+    {
+      "id": "interleaved-streamed-tools",
+      "feature": "Interleaved streamed tool-call indices",
+      "kind": "stream",
+      "fixture": "fixtures/interleaved-streamed-tools.jsonl",
+      "expected": {
+        "ok": true,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 2,
+        "codes": ["SSE_EMPTY_CHOICES", "SSE_TOOL_INDICES_INTERLEAVED"]
+      }
+    },
+    {
+      "id": "truncated-streamed-arguments",
+      "feature": "Token-limited incomplete streamed arguments",
+      "kind": "stream",
+      "fixture": "fixtures/truncated-streamed-arguments.jsonl",
+      "expected": {
+        "ok": true,
+        "errors": 0,
+        "warnings": 1,
+        "infos": 0,
+        "codes": ["SSE_TOOL_ARGUMENTS_INVALID"]
+      }
+    },
+    {
+      "id": "malformed-stream-line",
+      "feature": "Malformed SSE JSON data line",
+      "kind": "stream",
+      "fixture": "fixtures/malformed-stream-line.jsonl",
+      "expected": {
+        "ok": false,
+        "errors": 1,
+        "warnings": 0,
+        "infos": 0,
+        "codes": ["SSE_JSON_INVALID"]
+      }
+    }
+  ]
+}
