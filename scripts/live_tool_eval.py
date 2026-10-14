@@ -85,6 +85,10 @@ def main(argv: list[str] | None = None) -> int:
 
 def _validate_url(value: str) -> None:
     parsed = urlparse(value)
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError(
+            "base URL must not contain credentials; use the API-key environment variable"
+        )
     if parsed.scheme == "https" and parsed.netloc:
         return
     if parsed.scheme == "http" and parsed.hostname in {"localhost", "127.0.0.1", "::1"}:
