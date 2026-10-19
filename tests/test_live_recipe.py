@@ -3,6 +3,8 @@ from __future__ import annotations
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("live_tool_eval", ROOT / "scripts/live_tool_eval.py")
 assert SPEC is not None and SPEC.loader is not None
@@ -29,3 +31,15 @@ def test_full_recipe_omits_smoke_filter() -> None:
         full=True,
     )
     assert "--scenarios" not in command
+
+
+@pytest.mark.parametrize(
+    "base_url",
+    [
+        "https://user:secret@api.example.com/v1",
+        "https://secret@api.example.com/v1",
+    ],
+)
+def test_base_url_rejects_credentials_that_would_be_printed(base_url: str) -> None:
+    with pytest.raises(ValueError, match="must not contain credentials"):
+        live._validate_url(base_url)

@@ -35,6 +35,8 @@ uv run python scripts/live_tool_eval.py
 
 Add `--execute` only when you intend to make billable API calls and have set `DEEPSEEK_API_KEY`. See [the live-run notes](docs/tool-eval-bench.md) before comparing results. The current recipe explicitly disables thinking because the pinned upstream benchmark does not yet preserve `reasoning_content` in multi-turn history.
 
+The helper prints the command before running it, so base URLs with embedded user information are rejected. Keep credentials in environment variables.
+
 The round-trip fix is being reviewed upstream in [tool-eval-bench PR #68](https://github.com/SeraphimSerapis/tool-eval-bench/pull/68); this repository will not silently switch to an unmerged fork.
 
 ## Current DeepSeek assumptions
