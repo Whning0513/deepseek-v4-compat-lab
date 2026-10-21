@@ -1,6 +1,14 @@
 from __future__ import annotations
 
-from deepseek_v4_compat_lab.suite import load_manifest, render_matrix, run_suite
+from pathlib import Path
+
+from deepseek_v4_compat_lab.suite import _data_root, load_manifest, render_matrix, run_suite
+
+
+def test_installed_package_uses_bundled_data_directory(tmp_path: Path) -> None:
+    module_file = tmp_path / "site-packages" / "deepseek_v4_compat_lab" / "suite.py"
+
+    assert _data_root(module_file) == module_file.parent / "data"
 
 
 def test_manifest_is_valid_and_unique() -> None:

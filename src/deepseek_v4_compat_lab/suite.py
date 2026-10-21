@@ -9,7 +9,16 @@ from dsv4doctor.stream import inspect_stream
 from dsv4doctor.validator import validate_request
 from jsonschema import Draft202012Validator
 
-ROOT = Path(__file__).resolve().parents[2]
+
+def _data_root(module_file: Path) -> Path:
+    module_file = module_file.resolve()
+    source_root = module_file.parents[2]
+    if (source_root / "cases" / "manifest.json").is_file():
+        return source_root
+    return module_file.parent / "data"
+
+
+ROOT = _data_root(Path(__file__))
 MANIFEST_PATH = ROOT / "cases" / "manifest.json"
 SCHEMA_PATH = ROOT / "cases" / "schema.json"
 LOCK_PATH = ROOT / "lab.lock.json"

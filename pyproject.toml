@@ -30,6 +30,13 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/deepseek_v4_compat_lab"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"cases" = "deepseek_v4_compat_lab/data/cases"
+"fixtures" = "deepseek_v4_compat_lab/data/fixtures"
+"lab.lock.json" = "deepseek_v4_compat_lab/data/lab.lock.json"
+"MATRIX.md" = "deepseek_v4_compat_lab/data/MATRIX.md"
+"results" = "deepseek_v4_compat_lab/data/results"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
